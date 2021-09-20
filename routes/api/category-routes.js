@@ -45,38 +45,58 @@ router.post('/', async (req, res) => {
 
 });
 
-router.put('/:id', (req, res) => {
-  // update a category by its `id` value
-  // check Category.js in Models for data attributes-(Table columns)
-  Category.update({
-    category_name: req.body.category_name,
-  },
-    {
-      where: {
-        id: req.params.id,
-      },
-    }
-  )
-  .then((updatedCategory)=> {
-    res.json(updatedCategory);
-  })
-  .catch((err)=> {
-    console.log(err);
-    res.json(err);
-  })
+// router.put('/:id', (req, res) => {
+//   // update a category by its `id` value
+//   // check Category.js in Models for data attributes-(Table columns)
+//   Category.update({
+//     category_name: req.body.category_name,
+//   },
+//     {
+//       where: {
+//         id: req.params.id,
+//       },
+//     }
+//   )
+//   .then((updatedCategory)=> {
+//     res.json(updatedCategory);
+//   })
+//   .catch((err)=> {
+//     console.log(err);
+//     res.json(err);
+//   })
 
+// });
+
+
+router.put('/:id',async (req, res) => {
+  // update a tag's name by its `id` value
+  try {
+    const categoryData = await Category.update(
+     {
+      category_name: req.body.category_name,
+     },
+      {
+        where: {
+          id: req.params.id
+        }
+      });
+      res.status(200).json(categoryData);
+    } catch (err) {
+      res.status(400).json(err);
+     };
 });
+
 
 router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value
   try {
     const categoryData = await Category.destroy({
       where: {
-        id:red.params.id
+        id:req.params.id
       }
     });
     if(!categoryData) {
-      res.status(404).json({ message: 'No location found with this id!' });
+      res.status(404).json({ message: 'No CATEGIRY with this id!' });
       return;
     }
     res.status(200).json(categoryData);
