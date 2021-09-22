@@ -1,4 +1,4 @@
-<b># # 13-E-Commerce-Back-End-ORM</b><br>
+<b># 13-E-Commerce-Back-End-ORM</b><br>
 
 ## Description
     Build the back end for an e-commerce site by using Express.js API to use Sequelize to interact with a MySQL database.
@@ -22,4 +22,4 @@
 2. Video Link:  
 
 Screenshots:
-![screen-1]()<br>
+![screen-1](https://github.com/jyothybaby/13-E-Commerce-Back-End-ORM/blob/main/Screenshots/img1.png)<br>
