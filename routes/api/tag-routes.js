@@ -3,12 +3,26 @@ const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
+// find all tags
 router.get('/', async (req, res) => {
-  // find all tags
+
   // be sure to include its associated Product data
   try {
     const tagData = await Tag.findAll({
-   include: [{ model: Product, through: ProductTag, as: 'tagbelongstoproduct' }]
+      include: [{ model: Product, through: ProductTag, as: 'tagbelongstoproduct' }]
+    });
+    res.status(200).json(tagData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+// find one tag based on id
+router.get('/:id', async (req, res) => {
+  // find a single tag by its `id`
+  // be sure to include its associated Product data
+  try {
+    const tagData = await Tag.findByPk(req.params.id, {
+      include: [{ model: Product, through: ProductTag, as: 'tagbelongstoproduct' }]
     });
     res.status(200).json(tagData);
   } catch (err) {
@@ -16,20 +30,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
-try {
-  const tagData = await Tag.findByPk(req.params.id, {
-    include: [{model: Product, through: ProductTag, as: 'tagbelongstoproduct'}]
-  });
-  res.status(200).json(tagData);
-} catch (err) {
-  res.status(500).json(err);
-}
-});
-
-
+// Create a new tag
 router.post('/', async (req, res) => {
   // create a new tag
   try {
@@ -40,25 +41,27 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id',async (req, res) => {
+//Update a new tag
+router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
   try {
     const tagData = await Tag.update(
-     {
-       tag_name: req.body.tag_name,
-     },
+      {
+        tag_name: req.body.tag_name,
+      },
       {
         where: {
           id: req.params.id
         }
       });
-      res.status(200).json(tagData);
-    } catch (err) {
-      res.status(400).json(err);
-     };
+    res.status(200).json(tagData);
+  } catch (err) {
+    res.status(400).json(err);
+  };
 });
 
-router.delete('/:id',async (req, res) => {
+//Delete a tag based on id
+router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   try {
     const tagData = await Tag.destroy({
